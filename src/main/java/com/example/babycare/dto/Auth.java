@@ -1,7 +1,6 @@
 package com.example.babycare.dto;
 
-import com.example.babycare.domain.User;
-import java.time.LocalDateTime;
+import com.example.babycare.domain.UserEntity;
 import java.util.List;
 import lombok.Data;
 
@@ -22,8 +21,8 @@ public class Auth {
     private String email;
     private List<String> roles;
 
-    public User toEntity() {
-      return User.builder().username(this.username)
+    public UserEntity toEntity() {
+      return UserEntity.builder().username(this.username)
           .password(this.password)
           .email(this.email)
           .roles(this.roles)

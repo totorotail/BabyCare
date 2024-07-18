@@ -1,7 +1,10 @@
 package com.example.babycare.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,7 +17,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,25 +28,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Entity(name = "USER")
-public class User implements UserDetails {
+public class UserEntity implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
+  @Column
   private String username;
-
+  @Column
   private String password;
-
+  @Column
   private String email;
-
-  @ElementCollection
+  @Column
+  @ElementCollection(fetch = FetchType.EAGER)
   private List<String> roles;
-
-  @CreationTimestamp
+  @CreatedDate
+  @Column(updatable = false)
   private LocalDateTime createdAt;
-
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

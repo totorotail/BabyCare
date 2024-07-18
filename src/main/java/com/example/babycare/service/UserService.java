@@ -1,6 +1,6 @@
 package com.example.babycare.service;
 
-import com.example.babycare.domain.User;
+import com.example.babycare.domain.UserEntity;
 import com.example.babycare.dto.Auth;
 import com.example.babycare.exception.impl.AlreadyExistUserException;
 import com.example.babycare.repository.UserRepository;
@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException("couldn't find user -> " + username));
   }
 
-  public User register(Auth.SignUp user) {
+  public UserEntity register(Auth.SignUp user) {
     boolean exists = this.userRepository.existsByUsername(user.getUsername());
     if (exists) {
       throw new AlreadyExistUserException();
@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService {
     return result;
   }
 
-  public User authenticate(Auth.SignIn user) {
+  public UserEntity authenticate(Auth.SignIn user) {
 
     var result = this.userRepository.findByUsername(user.getUsername())
         .orElseThrow(() -> new RuntimeException("존재하지 않는 ID 입니다."));
