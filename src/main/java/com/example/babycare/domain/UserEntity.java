@@ -8,7 +8,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -50,6 +52,8 @@ public class UserEntity implements UserDetails {
   private LocalDateTime createdAt;
   @OneToMany(mappedBy = "userEntity")
   private List<CommentEntity> comments;
+  @OneToMany(mappedBy = "userEntity")
+  private List<Cart> carts;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
