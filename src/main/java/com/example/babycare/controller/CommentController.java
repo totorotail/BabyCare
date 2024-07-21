@@ -4,6 +4,8 @@ import com.example.babycare.domain.UserEntity;
 import com.example.babycare.dto.CommentDTO;
 import com.example.babycare.service.CommentService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,31 +26,31 @@ public class CommentController {
 
   @PostMapping("/add/{programName}")
   @PreAuthorize("hasRole('USER')")
-  public String addComment(@PathVariable("programName") String programName,
+  public ResponseEntity<?> addComment(@PathVariable("programName") String programName,
       @RequestBody CommentDTO commentDTO) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     UserEntity user = (UserEntity) auth.getPrincipal();
     commentService.addComment(programName, commentDTO, user.getUsername());
-    return "Comment added";
+    return ResponseEntity.ok(HttpStatus.OK);
   }
 
   @PutMapping("/update/{commentId}")
   @PreAuthorize("hasRole('USER')")
-  public String updateComment(@PathVariable("commentId") Long commentId,
+  public ResponseEntity<?> updateComment(@PathVariable("commentId") Long commentId,
       @RequestBody CommentDTO commentDTO) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     UserEntity user = (UserEntity) auth.getPrincipal();
     commentService.updateComment(commentId, commentDTO, user.getUsername());
-    return "Comment updated";
+    return ResponseEntity.ok(HttpStatus.OK);
   }
 
   @DeleteMapping("/delete/{commentId}")
   @PreAuthorize("hasRole('USER')")
-  public String deleteComment(@PathVariable("commentId") Long commentId) {
+  public ResponseEntity<?> deleteComment(@PathVariable("commentId") Long commentId) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     UserEntity user = (UserEntity) auth.getPrincipal();
     commentService.deleteComment(commentId, user.getUsername());
-    return "Comment deleted";
+    return ResponseEntity.ok(HttpStatus.OK);
   }
 
 
